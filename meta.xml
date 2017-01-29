@@ -1,0 +1,7 @@
+<meta>
+	<info autor="walter" type="gamemode" name="walter's server" description="walter's server" />
+	<script src="config.lua" />
+	<script src="functions.lua" />
+	<script src="events.lua" />
+	<script src="commands.lua" />
+</meta>

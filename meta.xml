@@ -1,7 +1,7 @@
 <meta>
 	<info autor="walter" type="gamemode" name="walter's server" description="walter's server" />
 	
-	<include resource="playerblips"/>
+	<include resource="freeroam" />
 	
 	<settings>
 		<setting name="spawnX" value="-2025.6005859375" />

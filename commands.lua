@@ -6,10 +6,11 @@ end
 addCommandHandler("kill", cmd_kill)
 
 -- /pos
--- prints player's position to the chat and server console
+-- prints player's position and rotation to the chat and server console
 function cmd_pos(player, cmd)
 	local x, y, z = getElementPosition(player)
-	local msg = x .. ", " .. y .. ", " .. z
+	local rx, ry, rz = getElementRotation(player)
+	local msg = x .. ", " .. y .. ", " .. z .. " : ".. rx .. ", " .. ry .. ", " .. rz
 	print(msg)
 	outputChatBox(msg, player)
 end
@@ -79,4 +80,8 @@ addCommandHandler("boost", cmd_boost)
 ]]
 addCommandHandler("lsriver", function(player, cmd) 
 	teleport(player, 2867.5, -231.8, 1226.0) 
+end)
+
+addCommandHandler("matt", function(player, cmd) 
+	teleport(player, 1968.9384, -826.7236, 127.2125) 
 end)

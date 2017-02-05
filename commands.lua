@@ -73,3 +73,10 @@ function cmd_boost(player, cmd, multiplier)
 	end
 end
 addCommandHandler("boost", cmd_boost)
+
+--[[
+	Teleports
+]]
+addCommandHandler("lsriver", function(player, cmd) 
+	teleport(player, 2867.5, -231.8, 1226.0) 
+end)

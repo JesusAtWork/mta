@@ -2,6 +2,10 @@
 -- This file contains helper functions for use throughout the code
 -------------------------------------------------------------------------------
 
+spawnX = tonumber(get("spawnX"))
+spawnY = tonumber(get("spawnY"))
+spawnZ = tonumber(get("spawnZ"))
+
 -- Picks a random point within a radius from the given point
 -- made lovingly with help from http://stackoverflow.com/a/5838991
 -- i dont know trig
@@ -30,4 +34,15 @@ end
 -- Returns true when the given player is driving a car
 function isDriving(player) 
 	return getPedOccupiedVehicleSeat(player) == 0
+end
+
+-- Teleports player to given position (or their car if they're driving)
+function teleport(player, x, y, z)
+	element_to_move = player
+	if (isDriving(player)) then
+		element_to_move = getPedOccupiedVehicle(player)
+	end
+	x, y = randomPointInRadius(x, y, 5)
+	setElementPosition(element_to_move, x, y, z)
+	
 end

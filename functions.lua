@@ -26,7 +26,7 @@ end
 -- Spawn location defined in config.lua
 function doPlayerSpawn(player)
 	model = getElementData(player, "model")
-	if (model == false) then
+	if (model ~= false) then
 		setElementModel(player, model)
 	end
 	

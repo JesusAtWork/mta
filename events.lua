@@ -18,8 +18,8 @@ addEventHandler("onPlayerJoin", getRootElement(), joinHandler)
 -- Wasted Handler
 function wastedHandler()
 	-- store their model to reset after they respawn
-	model = getElementModel(player)
-	setElementData(player, "model", model)
+	model = getElementModel(source)
+	setElementData(source, "model", model)
 	
 	-- respawn the player after 2 seconds
 	setTimer(doPlayerSpawn, 5000, 1, source)

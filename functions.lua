@@ -25,15 +25,16 @@ end
 -- Handles spawning the player
 -- Spawn location defined in config.lua
 function doPlayerSpawn(player)
-	model = getElementData(player, "model")
-	if (model ~= false) then
-		setElementModel(player, model)
-	end
 	
 	randX, randY = randomPointInRadius(spawnX, spawnY, 5)
 	spawnPlayer(player, randX, randY, spawnZ, 270)
 	fadeCamera(player, true)
 	setCameraTarget(player, player)
+	
+	model = getElementData(player, "model")
+	if (model ~= false) then
+		setElementModel(player, model)
+	end
 end
 
 -- Returns true when the given player is driving a car
@@ -51,6 +52,6 @@ function teleport(player, x, y, z, angle)
 	end
 	x, y = randomPointInRadius(x, y, 5)
 	setElementPosition(element_to_move, x, y, z)
-	setElementRotation(element_to_move, angle, 0, 0)
+	setElementRotation(element_to_move, 0, 0, angle)
 	
 end

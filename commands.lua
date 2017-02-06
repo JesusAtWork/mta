@@ -79,9 +79,9 @@ addCommandHandler("boost", cmd_boost)
 	Teleports
 ]]
 addCommandHandler("lsriver", function(player, cmd) 
-	teleport(player, 2867.5, -231.8, 1226.0) 
+	teleport(player, 2866.9174804688, -234.806640625, 1225.9116210938, 167) 
 end)
 
 addCommandHandler("matt", function(player, cmd) 
-	teleport(player, 1968.9384, -826.7236, 127.2125) 
+	teleport(player, 1982.701171875, -816.9443359375, 130.39364624023, 150) 
 end)

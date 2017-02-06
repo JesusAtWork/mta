@@ -146,8 +146,8 @@ addTeleport(
 addTeleport(
 	"matt",
 	"Matt's Sanchez Parkour",
-	{{1982.701171875, -816.9443359375, 130.39364624023, 150}},
-	3
+	{{1997.7056884766, -807.38104248047, 132.71237182617, 140}},
+	2
 )
 
 addTeleport(
@@ -158,8 +158,36 @@ addTeleport(
 )
 
 addTeleport(
-	"doherty"
-	"Doherty Garage"
-	{{-2025.6005859375, 139.9794921875, 28.8359375, 270}}
+	"doherty",
+	"Doherty Garage",
+	{{-2025.6005859375, 139.9794921875, 28.8359375, 270}},
+	5
+)
+
+addTeleport(
+	"airstrip",
+	"Abandoned Airstrip",
+	{{380.607421875, 2536.4228515625, 16.208227157593, 180}},
+	6
+)
+
+addTeleport(
+	"lvap",
+	"Las Venturas Airport",
+	{{1675.9951171875, 1593.9072265625, 10.8203125, 90}},
+	10
+)
+
+addTeleport(
+	"chiliad",
+	"Mount Chiliad",
+	{{-2330.919921875, -1614.7958984375, 483.44393920898, 215}},
+	10
+)
+
+addTeleport(
+	"chiliadbase",
+	"Mount Chiliad Base",
+	{{-2389.0166015625, -2177.4970703125, 33.016147613525, 195}},
 	5
 )

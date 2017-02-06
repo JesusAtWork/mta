@@ -15,6 +15,7 @@
 	<script src="commands.lua" type="server" />
 	
 	<map src="maps/ramp-ls-river.map" dimension="0" />
+	<map src="maps/lsap-dm.map" dimension="0" />
 	<map src="maps/skyscraper-pakour.map" dimension="0" />
 	<map src="maps/toast-obstacle-course.map" dimension="0" />
 </meta>

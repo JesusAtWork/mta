@@ -5,7 +5,7 @@
 spawnX = tonumber(get("spawnX"))
 spawnY = tonumber(get("spawnY"))
 spawnZ = tonumber(get("spawnZ"))
-spawnR = toNumber(get("spawnR"))
+spawnR = tonumber(get("spawnR"))
 
 -- Picks a random point within a radius from the given point
 -- made lovingly with help from http://stackoverflow.com/a/5838991

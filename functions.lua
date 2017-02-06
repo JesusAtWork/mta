@@ -5,6 +5,7 @@
 spawnX = tonumber(get("spawnX"))
 spawnY = tonumber(get("spawnY"))
 spawnZ = tonumber(get("spawnZ"))
+spawnR = toNumber(get("spawnR"))
 
 -- Picks a random point within a radius from the given point
 -- made lovingly with help from http://stackoverflow.com/a/5838991
@@ -27,7 +28,7 @@ end
 function doPlayerSpawn(player)
 	
 	randX, randY = randomPointInRadius(spawnX, spawnY, 5)
-	spawnPlayer(player, randX, randY, spawnZ, 270)
+	spawnPlayer(player, randX, randY, spawnZ, spawnR)
 	fadeCamera(player, true)
 	setCameraTarget(player, player)
 	
@@ -42,16 +43,30 @@ function isDriving(player)
 	return getPedOccupiedVehicleSeat(player) == 0
 end
 
--- Teleports player to given position (or their car if they're driving)
-function teleport(player, x, y, z, angle)
-	angle = angle == nil and 0 or angle
+-- Teleports player to given position
+-- optional parameters:
+---	   angle - the angle the teleported element will be facing (z axis rotation) (doesn't change if nil)
+--     radius - randomly teleports player within that radius of the coordiantes (0 if nil)
+-- 	   keep_vehicle - players who are driving will keep their vehicle when teleporting if true (true if nil)
+function teleport(player, x, y, z, angle, radius, keep_vehicle)
+	if (radius==nil) then radius = 0 end
+	if (keep_vehicle==nil) then keep_vehicle = true end
 	
+	--figure out what element to move and where
 	element_to_move = player
-	if (isDriving(player)) then
+	if (isDriving(player) and keep_vehicle) then
 		element_to_move = getPedOccupiedVehicle(player)
+	else
+		removePedFromVehicle(player)
 	end
-	x, y = randomPointInRadius(x, y, 5)
+	local x, y = randomPointInRadius(x, y, radius)
+	
+	-- deal with rotation
+	local rx, ry, rz = getElementRotation(element_to_move)
+	if (angle~=nil) then rz=angle end
+	
+	-- move them
+	setElementRotation(element_to_move, 0, 0, rz)
 	setElementPosition(element_to_move, x, y, z)
-	setElementRotation(element_to_move, 0, 0, angle)
 	
 end

@@ -17,18 +17,45 @@ end
 addCommandHandler("pos", cmd_pos)
 
 -- /v
--- puts the player in a vehicle given the vehicle ID they type for the argument
-function cmd_v(player, cmd, vehid)
-	local vehid = tonumber(vehid)
-	if (vehid == nil) then
+-- puts the player in a vehicle given the vehicle name or ID
+function cmd_v(player, cmd, param, param2)
+	-- some cars have a space in their name, so handle that case
+	if(param2) then
+		param = param .. " " .. param2
+	end
+	
+	-- check that the player provided a parameter
+	if (param == nil) then
 		outputChatBox("/v: Spawn a vehicle", player)
-		outputChatBox("Usage: /v (vehicle id)", player)
+		outputChatBox("Usage: /v (vehicle name/id)", player)
 	else
-		-- spawn a car at the player's position and put them in it
-		local x, y, z = getElementPosition(player)
-		local rx, ry, rz = getElementRotation(player)
-		local vehicle = createVehicle(vehid, x, y, z, rx, ry, rz)
-		warpPedIntoVehicle(player, vehicle)
+		-- check if the player typed an id or a name and convert it if necessary
+		if (tonumber(param) == nil) then 
+			vehid = getVehicleModelFromName(param)
+		else
+			vehid = tonumber(param)
+		end
+		
+		-- check that we have a number and not a bool or a nil or something
+		if (type(vehid)~='number') then
+			outputChatBox(string.format("Vehicle \"%s\" not found!", param), player)
+		else
+			-- try spawn a car at the player's position and put them in it
+			local x, y, z = getElementPosition(player)
+			local rx, ry, rz = getElementRotation(player)
+			local vehicle = createVehicle(vehid, x, y, z, rx, ry, rz)
+			
+			-- check that the car was actually made (would get here if user typed a vehicle id that doesnt exist)
+			if (not vehicle) then
+				outputChatBox(string.format("Vehicle \"%s\" not found!", param), player)
+			else 
+				-- if the player is driving right now, destroy the car they're in
+				if (isDriving(player)) then
+					destroyElement(getPedOccupiedVehicle(player))
+				end
+				warpPedIntoVehicle(player, vehicle)
+			end
+		end
 	end
 end
 addCommandHandler("v", cmd_v)
@@ -76,12 +103,63 @@ end
 addCommandHandler("boost", cmd_boost)
 
 --[[
-	Teleports
-]]
-addCommandHandler("lsriver", function(player, cmd) 
-	teleport(player, 2866.9174804688, -234.806640625, 1225.9116210938, 167) 
-end)
 
-addCommandHandler("matt", function(player, cmd) 
-	teleport(player, 1982.701171875, -816.9443359375, 130.39364624023, 150) 
-end)
+	Teleporting
+	
+]]
+
+--[[
+	addTeleport
+	Add a location that players can teleport to by command
+	
+	parameters:
+		cmdtext - the command text that the player types to teleport
+		name - a name for the location
+		tbl_coords - a 2-dimensional table of coordinates and angle, e.g.:
+			{
+				x, y, z, angle
+				{10, 20, 30, 360},
+				{5, 5, 5, nil},
+				{3, 5, 7}
+			}
+			players will be randomly teleported to one of these locations
+			set angle to nil/don't specify if you want to maintain the facing direction
+		radius - the player will spawn randomly within a radius this many units from the chosen coords (0 if not specified)
+		keep_vehicle - if true, the player will keep the car they're driving when they teleport (true if not specified)
+		
+]]
+function addTeleport(cmdtext, name, tbl_coords, radius, keep_vehicle)
+	addCommandHandler(cmdtext, function(player, cmd)
+		coords = tbl_coords[math.random(#tbl_coords)]
+		teleport(player, coords[1], coords[2], coords[3], coords[4], radius, keep_vehicle)
+		outputChatBox(string.format("TELEPORT: %s teleported to %s (/%s)", getPlayerName(player), name, cmd), getRootElement(), 32, 192, 32)
+	end)
+end
+
+addTeleport(
+	"lsriver", 
+	"Los Santos River Ramp", 
+	{{2866.9174804688, -234.806640625, 1225.9116210938, 167}},
+	5
+)
+
+addTeleport(
+	"matt",
+	"Matt's Sanchez Parkour",
+	{{1982.701171875, -816.9443359375, 130.39364624023, 150}},
+	3
+)
+
+addTeleport(
+	"grove",
+	"Grove Street",
+	{{2486.9033203125, -1666.9697265625, 13.34375}},
+	10
+)
+
+addTeleport(
+	"doherty"
+	"Doherty Garage"
+	{{-2025.6005859375, 139.9794921875, 28.8359375, 270}}
+	5
+)

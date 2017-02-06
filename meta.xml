@@ -7,6 +7,7 @@
 		<setting name="spawnX" value="-2025.6005859375" />
 		<setting name="spawnY" value="139.9794921875" />
 		<setting name="spawnZ" value="28.8359375" />
+		<setting name="spawnR" value="270" />
 	</settings>
 	
 	<script src="functions.lua" type="server" />

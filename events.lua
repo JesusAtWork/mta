@@ -5,11 +5,12 @@
 
 -- Executed when player joins the server
 function joinHandler()
+	outputChatBox(string.format("%s has joined the server!", getPlayerName(source)))
+	
 	-- boosting
 	bindKey(source, "mouse1", "down", doBoost)
 	setElementData(source, "boost", 0)
 	
-	outputChatBox("Welcome to My Server", source)
 	doPlayerSpawn(source)
 end
 addEventHandler("onPlayerJoin", getRootElement(), joinHandler)
@@ -26,6 +27,12 @@ function wastedHandler()
 end
 addEventHandler("onPlayerWasted", getRootElement(), wastedHandler)
 
+
+-- Quit handler
+function quitHandler(quitType)
+	outputChatBox(string.format("%s has left the server (%s)", getPlayerName(source), quitType))
+end
+addEventHandler("onPlayerQuit", getRootElement(), quitHandler)
 
 -- Boosting when the player clicks
 function doBoost(player, key, keyState)

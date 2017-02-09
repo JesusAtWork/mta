@@ -38,7 +38,7 @@ function cmd_v(player, cmd, param, param2)
 		
 		-- check that we have a number and not a bool or a nil or something
 		if (type(vehid)~='number') then
-			outputChatBox(string.format("Vehicle \"%s\" not found!", param), player)
+			outputChatBox(string.format("Vehicle \"%s\" not found!", param), player, 255, 128, 128)
 		else
 			-- try spawn a car at the player's position and put them in it
 			local x, y, z = getElementPosition(player)
@@ -49,10 +49,16 @@ function cmd_v(player, cmd, param, param2)
 			if (not vehicle) then
 				outputChatBox(string.format("Vehicle \"%s\" not found!", param), player)
 			else 
+				local dp = false
 				-- if the player is driving right now, destroy the car they're in
 				if (isDriving(player)) then
-					destroyElement(getPedOccupiedVehicle(player))
+					local old_veh = getPedOccupiedVehicle(player)
+					dp = isVehicleDamageProof(old_veh)
+					destroyElement(old_veh)
 				end
+				-- carry over damage proof state from old car
+				setVehicleDamageProof(vehicle, dp)
+				
 				warpPedIntoVehicle(player, vehicle)
 			end
 		end
@@ -60,12 +66,34 @@ function cmd_v(player, cmd, param, param2)
 end
 addCommandHandler("v", cmd_v)
 
+-- /w
+-- spawn a weapon by name
+function cmd_w(player, cmd, param, param2)
+	-- some weapons have a space in their name, etc
+	if (param2) then
+		param = param .. " " .. param2
+	end
+	
+	if (param == nil) then
+		outputChatBox("/w: Spawn a weapon", player)
+		outputChatBox("Usage: /w (weapon name)", player)
+	else
+		local wepid = getWeaponIDFromName(param)
+		if (wepid==false) then
+			outputChatBox(string.format("Didn't find a weapon named \"%s\"!", param), player, 255, 128, 128)
+		else
+			giveWeapon(player, wepid, 32767, true)
+		end
+	end
+end
+addCommandHandler("w", cmd_w)
+
 -- /dp
 -- toggles damageproof state of the car the player is driving
 function cmd_dp(player, cmd)
 	-- make sure the player is driving a car
 	if (not isDriving(player)) then
-		outputChatBox("/dp: You need to be driving a car first!")
+		outputChatBox("/dp: You need to be driving a car first!", player)
 	else
 		local vehicle = getPedOccupiedVehicle(player)
 		local new_state = not isVehicleDamageProof(vehicle)
@@ -85,18 +113,18 @@ end
 addCommandHandler("respawn", cmd_respawn)
 
 -- boosting: velocity vector shouldnt be more than 1000
-function cmd_boost(player, cmd, multiplier)
-	local multiplier = tonumber(multiplier)
-	if (multiplier == nil or multiplier < 0 or multiplier > 100) then
-		outputChatBox("Usage: /boost (multiplier value)", player)
-		outputChatBox("Multiplier can be between 0 and 100. Use \"/boost 0\" to disable boosting.", player)
+function cmd_boost(player, cmd, str)
+	local str = math.floor(tonumber(str))
+	if (str == nil or str < 0 or str > 3) then
+		outputChatBox("Usage: /boost (strength)", player)
+		outputChatBox("Strength can be between 1 and 3. Use \"/boost 0\" to disable boosting.", player)
 	else
-		if (multiplier == 0) then
+		if (str == 0) then
 			outputChatBox("Boosting disabled.", player)
 		else
-			outputChatBox("Boosting multiplier set to " .. multiplier .. ".")
+			outputChatBox("Boosting strength set to " .. str .. ".", player)
 		end
-		setElementData(player, "boost", multiplier)
+		setElementData(player, "boost", str)
 			
 	end
 end
@@ -197,4 +225,18 @@ addTeleport(
 	"Nino Race",
 	{{2983.4404296875, -1640.744140625, 35.409103393555, 165.5}},
 	5
+)
+
+addTeleport(
+	"toastarena",
+	"Toast's Arena",
+	{
+		{2692.5, -1799.3, 38.6},
+		{2743.8, -1712, 41.9},
+		{2783.6, -1795.1, 39},
+		{2711.8, -1746.5, 42.5},
+		{2783.2, -1729.4, 39.5}
+	},
+	2,
+	false
 )

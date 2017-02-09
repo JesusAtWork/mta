@@ -19,4 +19,5 @@
 	<map src="maps/skyscraper-pakour.map" dimension="0" />
 	<map src="maps/toast-obstacle-course.map" dimension="0" />
 	<map src="maps/nino-race.map" dimension="0" />
+	<map src="maps/toast-arena.map" dimension="0" />
 </meta>
